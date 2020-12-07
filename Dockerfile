@@ -9,21 +9,21 @@ RUN yum update -y \
     && make \
     && sudo make install \
     && cd .. \
-    && echo "empyrical==0.5.3" > req.txt \
-    && echo "matplotlib==3.3.2" >> req.txt \
-    && echo "pandas==1.0.5" >> req.txt \
-    && echo "seaborn==0.9.0" >> req.txt \
-    && echo "mplfinance==0.12.6a3" >> req.txt \
-    && echo "abupy==0.4.0" >> req.txt \
-    && echo "TA-Lib==0.4.17" >> req.txt \
-    && echo "quantaxis==1.9.30" >> req.txt \
-    && echo "peakutils==1.3.3" >> req.txt \
-    && echo "ipywidgets==7.4.2" >> req.txt \
-    && echo "bokeh==2.0.2" >> req.txt \
-    && echo "toolz==0.10.0" >> req.txt \
-    && echo "notebook" >> req.txt \
-    && echo "jupyter_contrib_nbextensions" >> req.txt \
-    && echo "yapf" >> req.txt \
+    && pip3 install empyrical==0.5.3 \
+    && pip3 install matplotlib==3.3.2" \
+    && pip3 install pandas==1.0.5" \
+    && pip3 install seaborn==0.9.0" \
+    && pip3 install mplfinance==0.12.6a3" \
+    && pip3 install abupy==0.4.0" \
+    && pip3 install TA-Lib==0.4.17" \
+    && pip3 install quantaxis==1.9.30" \
+    && pip3 install peakutils==1.3.3" \
+    && pip3 install ipywidgets==7.4.2" \
+    && pip3 install bokeh==2.0.2" \
+    && pip3 install toolz==0.10.0" \
+    && pip3 install notebook" \
+    && pip3 install jupyter_contrib_nbextensions" \
+    && pip3 install yapf" \
     && pip3 install -r req.txt \
     && pip3 unstall pytdx -y \
     && pip3 install pytdx==1.72 \
