@@ -103,46 +103,40 @@ EXPOSE 80
 
 # WORKDIR /holding_tracking/server
 
-# 貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以此步暂时取消-开始
-# # 安装NodeJs
-# RUN wget https://cdn.npm.taobao.org/dist/node/v14.15.1/node-v14.15.1-linux-x64.tar.xz \
-#     && tar -xJvf node-v14.15.1-linux-x64.tar.xz
+# 安装NodeJs
+RUN wget https://cdn.npm.taobao.org/dist/node/v14.15.1/node-v14.15.1-linux-x64.tar.xz \
+    && tar -xJvf node-v14.15.1-linux-x64.tar.xz
 
-# ENV PATH="/node-v14.15.1-linux-x64/bin:$PATH"
+ENV PATH="/node-v14.15.1-linux-x64/bin:$PATH"
 
-# RUN . ~/.profile \
-#     && node -v \
-#     && npm version \
-#     && npx -v
+RUN . ~/.profile \
+    && node -v \
+    && npm version \
+    && npx -v
 
-# WORKDIR /holding_tracking/client
+WORKDIR /holding_tracking/client
 
-# RUN npm install > /dev/null
+RUN npm install > /dev/null
 
-# # 安装 angularjs，并且不提示是否提交试用数据
-# # https://github.com/angular/angular-cli/blob/master/docs/design/analytics.md
-# # https://stackoverflow.com/questions/56355499/stop-angular-cli-asking-for-collecting-analytics-when-i-use-ng-build/56360325
-# RUN npm install -g @angular/cli > /dev/null
+# 安装 angularjs，并且不提示是否提交试用数据
+# https://github.com/angular/angular-cli/blob/master/docs/design/analytics.md
+# https://stackoverflow.com/questions/56355499/stop-angular-cli-asking-for-collecting-analytics-when-i-use-ng-build/56360325
+RUN npm install -g @angular/cli > /dev/null
 
-# RUN npm install @angular-devkit/core > /dev/null
+RUN npm install @angular-devkit/core > /dev/null
 
-# RUN npm install ng-zorro-antd
+RUN npm install ng-zorro-antd
 
-# RUN ng build --prod
+RUN ng build --prod
 
-# 此处需要修改为flask所在的服务器的ip
-# RUN sed -i 's/localhost:5000/localhost:5000/' dist/client/main.*.js
+RUN sed -i 's/localhost:5000/172.16.2.146:5000/' dist/client/main.*.js
 
-# WORKDIR /
+WORKDIR /
 
-# COPY /lighttpd.conf /lighttpd.conf
-
-# ADD start.sh /holding_tracking/server/start.sh
-
-# 貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以此步暂时取消-结束
+COPY /lighttpd.conf /lighttpd.conf
 
 ENV FLASK_APP=/holding_tracking/server/hello.py
 
-# CMD ["/holding_tracking/server/start.sh"]
+ADD start.sh /holding_tracking/server/start.sh
 
-CMD ["/usr/local/bin/flask","run --host=0.0.0.0"]
+CMD ["/holding_tracking/server/start.sh"]
