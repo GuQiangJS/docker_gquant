@@ -1,0 +1,23 @@
+# 每日自动更新、分析、生成结果、上传github的脚本
+cd /gquant-report
+
+echo "开始每日更新数据。$(date)"
+# 更新数据
+/usr/local/bin/python /gquant-report/update_data.py
+# 获取最新
+/usr/bin/git pull origin master
+# 创建数据
+/usr/local/bin/python /gquant-report/daily_creator.py
+# 备份数据
+TODAY=$(date +"%Y-%m-%d")
+cp /gquant-report/readme.md /gquant-report/history/$TODAY.md
+# 附加持仓
+/usr/local/bin/python /gquant-report/write_holds.py
+/usr/bin/git add /gquant-report/readme.md
+/usr/bin/git add /gquant-report/history/$TODAY.md
+/usr/bin/git add /gquant-report/imgs/
+# 上传数据
+/usr/bin/git commit -v -m "$TODAY"
+/usr/bin/git push -v http://{username}:{pwd}@github.com/GuQiangJS/gquant-report.git --all
+echo "完成每日更新数据。$(date)"
+echo "---------------------------------------"

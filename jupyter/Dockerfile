@@ -10,10 +10,12 @@ COPY source_debian_stretch.list /etc/apt/sources.list
 ENV PIP_INSTALL_ARG="--default-timeout=100 --no-cache-dir -i https://mirrors.aliyun.com/pypi/simple"
 # ENV PIP_INSTALL_ARG="--no-cache-dir"
 
+# 更新系统必须的包
 RUN apt update \
     && apt install -y sudo ca-certificates wget gcc make zlib1g zlib1g-dev libffi-dev git python3-tk \
     && rm -rf /var/lib/apt/lists/*
 
+# 安装talib依赖项
 RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz \
     && tar -xzf ta-lib-0.4.0-src.tar.gz \
     && cd ta-lib/ \
@@ -28,6 +30,7 @@ RUN wget http://prdownloads.sourceforge.net/ta-lib/ta-lib-0.4.0-src.tar.gz \
     && rm ta-lib-0.4.0-src.tar.gz \
     && pip --version
 
+# 安装python需要的包
 RUN pip install numpy==1.16.2 $PIP_INSTALL_ARG \
     && pip install empyrical==0.5.3 $PIP_INSTALL_ARG \
     && pip install matplotlib==3.3.2 $PIP_INSTALL_ARG \
@@ -56,11 +59,26 @@ RUN pip install numpy==1.16.2 $PIP_INSTALL_ARG \
 ENV matplotlibrc /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/matplotlibrc
 ENV mpl_path /usr/local/lib/python3.7/site-packages/matplotlib/mpl-data/
 
+# 复制黑体字体
 COPY simhei.ttf "$mpl_path"fonts/ttf/SimHei.ttf
 
+# 设置matplotlib-支持中文显示
 RUN sed -i 's/#font.family/font.family/' "$matplotlibrc" \
     && sed -i 's/#font.sans-serif\s*:/font.sans-serif : SimHei, /' "$matplotlibrc" \
     && sed -i 's/#axes.unicode_minus\s*:\s*True/axes.unicode_minus  : False/' "$matplotlibrc" 
+
+# 设置QUANTAXIS连接MONGODB的字符串
+ARG mongodb_ip="127.0.0.1"
+ARG mongodb_port="27017"
+
+RUN mkdir /root/.quantaxis/setting/ -p \
+    && touch /root/.quantaxis/setting/config.ini \
+    && echo "[MONGODB]" > /root/.quantaxis/setting/config.ini \
+    && echo "uri = mongodb://${mongodb_ip}:${mongodb_port}" >> /root/.quantaxis/setting/config.ini
+
+# 设置时区
+RUN cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime \
+    && echo "Asia/Shangshai" > /etc/timezone
 
 # 复制需要的数据，数据来源 https://github.com/bbfamily/abu/tree/master/abupy/RomDataBu
 COPY stock_code_CN.csv /usr/local/lib/python3.7/site-packages/abupy/RomDataBu/stock_code_CN.csv

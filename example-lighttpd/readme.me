@@ -1,0 +1,31 @@
+基于 `alpine` 创建的 `lighttpd` 简易网站示例。
+
+```bash
+$ docker build -t website .
+[+] Building 0.1s (9/9) FINISHED
+ => [internal] load build definition from Dockerfile                                                                                                                                                                                                                    0.0s
+ => => transferring dockerfile: 228B                                                                                                                                                                                                                                    0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                                                                       0.1s
+ => => transferring context: 2B                                                                                                                                                                                                                                         0.0s
+ => [internal] load metadata for docker.io/library/alpine:latest                                                                                                                                                                                                        0.0s
+ => [1/4] FROM docker.io/library/alpine                                                                                                                                                                                                                                 0.0s
+ => [internal] load build context                                                                                                                                                                                                                                       0.0s
+ => => transferring context: 64B                                                                                                                                                                                                                                        0.0s
+ => CACHED [2/4] COPY index.html /www/index.html                                                                                                                                                                                                                        0.0s
+ => CACHED [3/4] COPY lighttpd.conf /lighttpd.conf                                                                                                                                                                                                                      0.0s
+ => CACHED [4/4] RUN apk add lighttpd                                                                                                                                                                                                                                   0.0s
+ => exporting to image                                                                                                                                                                                                                                                  0.0s
+ => => exporting layers                                                                                                                                                                                                                                                 0.0s
+ => => writing image sha256:bee4344d3ce17e23e92aaba9c8b0fc44e4fc146c76c9ec502d654f47bf08d221                                                                                                                                                                            0.0s
+ => => naming to docker.io/library/website         
+```
+
+```bash                                                                                                                                                                                                                          0.0s
+$ docker run -it --name website -p 81:80 website
+2020-12-17 15:25:13: (server.c.1488) server started (lighttpd/1.4.55)
+```
+
+```bash
+$ docker run -itd --name website -p 81:80 website
+8f77fe0444b11a4fd97d1662aec93ca78187094646e3dcb5203a2bdcb7e20f46
+```
