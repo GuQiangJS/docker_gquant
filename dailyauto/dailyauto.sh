@@ -1,6 +1,9 @@
 # 每日自动更新、分析、生成结果、上传github的脚本
 cd /gquant-report
 
+# 更新代码
+/usr/bin/git pull
+
 echo "开始每日更新数据。$(date)"
 # 更新数据
 /usr/local/bin/python /gquant-report/update_data.py
