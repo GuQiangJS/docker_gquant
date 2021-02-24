@@ -28,7 +28,22 @@ you are using non-interactive mdoel quantaxis
 
 ~~* 2020-12-18：貌似ant-ng-zorro相关的样式无法加载，造成网页显示很烂，所以暂时作为web服务器使用。~~
 
-# 待处理
+~~# 待处理~~
+
+## 更新网站
+
+1. 进入运行中的容器
+```bash
+docker exec -it website /bin/sh
+```
+
+2. 重新编译网站
+```bash
+cd holding_tracking
+git pull
+cd client
+ng build --prod
+```
 
 ## 更新文件
 
