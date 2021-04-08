@@ -37,12 +37,23 @@ you are using non-interactive mdoel quantaxis
 docker exec -it website /bin/sh
 ```
 
-2. 重新编译网站
+2. pgrep命令不存在时的解决方案
+```bash
+apt-get install procps
+```
+
+3. 重新编译网站
 ```bash
 cd holding_tracking
 git pull
 cd client
 ng build --prod
+```
+
+4. 重启网站服务
+```bash
+kill $(pgrep -f flask)
+/bin/bash /holding_tracking/server/start.sh
 ```
 
 ## 更新文件
