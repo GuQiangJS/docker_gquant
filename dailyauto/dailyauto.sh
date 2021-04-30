@@ -11,6 +11,11 @@ echo "开始每日更新数据。$(date)"
 /usr/bin/git pull origin master
 # 创建数据
 /usr/local/bin/python /gquant-report/daily_creator.py
+
+#周内效应
+/usr/local/bin/python /gquant-report/calendar_effect/create_baseline.py
+/usr/local/bin/python /gquant-report/calendar_effect/daily_creator.py
+
 # 备份数据
 TODAY=$(date +"%Y-%m-%d")
 cp /gquant-report/readme.md /gquant-report/history/$TODAY.md
