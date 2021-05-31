@@ -27,6 +27,19 @@ cp /gquant-report/readme.md /gquant-report/history/$TODAY.md
 /usr/bin/git add /gquant-report/calendar_effect/
 # 上传数据
 /usr/bin/git commit -v -m "$TODAY"
-/usr/bin/git push -v http://{username}:{pwd}@github.com/GuQiangJS/gquant-report.git --all
+#/usr/bin/git push -v http://{username}:{pwd}@github.com/GuQiangJS/gquant-report.git --all
+
+RETIRES=5
+COUNT=1
+while [ ${COUNT} -lt ${RETIRES} ]; do
+  /user/bin/git push
+  if [ $? -eq 0 ]; then
+    echo $?
+    RETRIES=0
+    break
+  fi
+  let COUNT=${COUNT}+1
+  sleep 10
+
 echo "完成每日更新数据。$(date)"
 echo "---------------------------------------"
