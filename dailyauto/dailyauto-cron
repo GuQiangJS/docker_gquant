@@ -1,2 +1,4 @@
 30 18 * * * /bin/bash /dailyauto.sh >> /dailyauto.log 2>&1
+0 18 * * * sudo /bin/bash /update_github_hosts.sh
+0 0 * * 0 rm -f /dailyauto.log
 # An empty line is required at the end of this file for a valid cron file.
