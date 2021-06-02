@@ -31,7 +31,8 @@ cp /gquant-report/readme.md /gquant-report/history/$TODAY.md
 
 RETIRES=5
 COUNT=1
-while [ ${COUNT} -lt ${RETIRES} ]; do
+while [ ${COUNT} -lt ${RETIRES} ]; 
+do
   /usr/bin/git push
   if [ $? -eq 0 ]; then
     echo $?
@@ -40,6 +41,6 @@ while [ ${COUNT} -lt ${RETIRES} ]; do
   fi
   let COUNT=${COUNT}+1
   sleep 10
-
+done
 echo "完成每日更新数据。$(date)"
 echo "---------------------------------------"
